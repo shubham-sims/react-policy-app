@@ -1,12 +1,12 @@
 body {
   margin: 0;
   padding: 0;
-  background-image: url('../Images/background-image.jpg'); 
+  /* background-image: url('../Images/background-image.jpg');  */
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center center;
   background-attachment: fixed;
-  /* background-color: #073B3A; */
+  background-color: #073B3A;
 }
 
 .content-box {
@@ -64,8 +64,9 @@ input {
   margin-top: 5px;
   margin-bottom: 8px;
   border-radius: 5px;
-  border-width: 1px;
-  background-color: #C1E6B8;
+  border-width: 0px;
+  height: 40px;
+  /* background-color: #C1E6B8; */
 }
 
 .error-message {
@@ -112,14 +113,19 @@ a{
   color: red;
 }
 
-.policy-details { 
+.policy-details{ 
   padding: 20px;  
   background-color: rgb(245 245 245 / 30%);  
   border: 1px solid #ddd;     
   border-radius: 8px;         
 }
 
-.policy-sub{
+.vehicle-details, .coverage-details {
+  margin-bottom: 30px
+}
+
+
+.policy-sub {
   display: flex;
   justify-content: space-between;
 }
@@ -137,9 +143,24 @@ a{
   width: 100%;
   box-sizing: border-box;
   margin-bottom: 8px;
-  background-color: #C1E6B8;
+  /* background-color: #C1E6B8; */
 }
 
+.new-policy-box{
+  display: flex;
+  justify-content: space-between;
+}
+
+.new-policy-box > div {
+  width: 48%;
+}
+
+.new-policy-box{
+  padding: 8px;
+  width: 100%;
+  box-sizing: border-box;
+  margin-bottom: 8px;
+}
 
 .button-group button {
   margin-right: 8px;
@@ -174,4 +195,66 @@ a{
 
 hr{
   box-shadow: 0 0 20px 10px rgba(255, 255, 255, 0.1)
+}
+
+.editable {
+  background-color: white;
+}
+
+.non-editable {
+  /* background-color: #f0f0f0;  */
+  background-color: rgba(255, 255, 255, 0.1);
+  pointer-events: none;
+  /* color: #666;  */
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+  margin-bottom: 20px;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 0 8px 8px rgba(0, 0, 0, 0.1);
+}
+
+tbody > tr > td {
+  text-align: left;
+  padding-left: 25px;
+}
+
+th, td {
+  /* border: 0.5px solid #000000; */
+  text-align: left;
+  padding: 8px;
+  text-align: center;
+}
+
+th {
+  background-color: #4caf50;
+  
+}
+td{
+  border-bottom: 0.5px solid #000000;
+  border-top: 0.5px solid #000000;
+}
+
+.sub-column{
+  border-bottom: 0.5px solid #000000;
+}
+
+.tab{
+  text-align: center;
+  border: 0.5px solid #000000;
+  margin: 10px;
+  border-radius: 5px;
+}
+
+.tab > p {
+  font-weight: bold;
+  margin: 5px auto;
+}
+
+#show-more{
+  margin: 2px auto;
+  margin-left: 630px;
 }

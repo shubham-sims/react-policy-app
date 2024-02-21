@@ -1,22 +1,33 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { toast } from "react-toastify";
+import Vehicle from "./Vehicle";
+import Coverage from "./Coverage";
 
-function Policy({isFetched, setIsFetched, policyData, setPolicyData, editedData, setEditedData}) {
+function Policy({
+  isFetched,
+  setIsFetched,
+  policyData,
+  setPolicyData,
+  editedData,
+  setEditedData,
+  showMore,
+  setShowMore,
+}) {
   //State Variables
   const [isEditable, setIsEditable] = useState(false);
-  const [flag, setFlag] = useState(true);
-
+  
   //Method to handle Update Button Click
   const handlePolicyUpdate = () => {
     setIsEditable(!isEditable);
-    setFlag(!flag);
+    setShowMore(true);
   };
 
   //Method to handle Close Button Click
-  const handlePolicyClose= () =>{
+  const handlePolicyClose = () => {
     setIsFetched(!isFetched);
-  }
+    setShowMore(false);
+  };
 
   //Method to handle changes is input fields while in edit mode
   const handleFieldChange = (e) => {
@@ -25,6 +36,11 @@ function Policy({isFetched, setIsFetched, policyData, setPolicyData, editedData,
       ...prevData,
       [name]: value,
     }));
+  };
+
+  //Method to handle Show More Button Click
+  const handleShowMore = () => {
+    setShowMore(!showMore);
   };
 
   //Method to handle Save CHanges button click
@@ -38,11 +54,12 @@ function Policy({isFetched, setIsFetched, policyData, setPolicyData, editedData,
       setPolicyData(result.data); // Updating policyData with newly updated data
       toast.success("Policy Details Updated", { autoClose: 2000 });
     } catch (error) {
-        const errorInfo = error.response.data;
-        const errorMessage = errorInfo.errorMessage;
-        const errorCode = errorInfo.errorCode;
-        //newError = errorMessage;
-        console.error(`Error Code: ${errorCode}, Error Message: ${errorMessage}`);
+      const errorInfo = error.response.data;
+      const errorMessage = errorInfo.errorMessage;
+      const errorCode = errorInfo.errorCode;
+      //newError = errorMessage;
+      toast.error(errorMessage, { autoClose: 2000 });
+      console.error(`Error Code: ${errorCode}, Error Message: ${errorMessage}`);
     }
   };
   //Conditionally rendering the whole Policy Component based on isFetched flag
@@ -50,7 +67,8 @@ function Policy({isFetched, setIsFetched, policyData, setPolicyData, editedData,
   if (isFetched) {
     return (
       <div className="policy-box">
-        <div className="button-group">{/* Conditionally rendering the buttons */}
+        <div className="button-group">
+          {/* Conditionally rendering the buttons */}
           {isEditable && (
             <div>
               <button
@@ -85,117 +103,125 @@ function Policy({isFetched, setIsFetched, policyData, setPolicyData, editedData,
           )}
         </div>
         <div className="policy-details">
-        <div className="policy-sub">{/* Conditionally rendering the data as read-only or input fields based on isEditable flag value */}
-          <div>   
-            <p>
-              <u>Policy Number</u>:{" "}
-              {isEditable ? (
+          <div className="policy-sub">
+            {/* Conditionally rendering the data as read-only or input fields based on isEditable flag value */}
+            <div>
+              <p>
+                Policy Number:{" "}
                 <input
                   type="text"
                   name="policyNumber"
                   value={editedData.policyNumber || ""}
                   onChange={handleFieldChange}
-                  readOnly={!flag}
+                  readOnly={true}
+                  className={"non-editable"}
                 />
-              ) : (
-                policyData.policyNumber
-              )}
-            </p>
-            <p>
-              <u>Policy Person</u>:{" "}
-              {isEditable ? (
+              </p>
+              <p>
+                Policy Person:{" "}
                 <input
                   type="text"
                   name="policyPerson"
                   value={editedData.policyPerson || ""}
                   onChange={handleFieldChange}
+                  readOnly={!isEditable}
+                  className={isEditable ? "editable" : "non-editable"}
                 />
-              ) : (
-                policyData.policyPerson
-              )}
-            </p>
-            <p>
-              <u>Phone Number</u>:{" "}
-              {isEditable ? (
+              </p>
+              <p>
+                Phone Number:{" "}
                 <input
                   type="text"
                   name="phoneNumber"
                   value={editedData.phoneNumber || ""}
                   onChange={handleFieldChange}
+                  readOnly={!isEditable}
+                  className={isEditable ? "editable" : "non-editable"}
                 />
-              ) : (
-                policyData.phoneNumber
-              )}
-            </p>
-            <p>
-              <u>Address</u>:{" "}
-              {isEditable ? (
+              </p>
+              <p>
+                Address:{" "}
                 <input
                   type="text"
                   name="address"
                   value={editedData.address || ""}
                   onChange={handleFieldChange}
+                  readOnly={!isEditable}
+                  className={isEditable ? "editable" : "non-editable"}
                 />
-              ) : (
-                policyData.address
-              )}
-            </p>
-          </div>
-          <div>
-            <p>
-              <u>Term Duration</u>:{" "}
-              {isEditable ? (
+              </p>
+            </div>
+            <div>
+              <p>
+                Term Duration:{" "}
                 <input
                   type="number"
                   name="termDuration"
                   value={editedData.termDuration || ""}
                   onChange={handleFieldChange}
+                  readOnly={!isEditable}
+                  className={isEditable ? "editable" : "non-editable"}
                 />
-              ) : (
-                `${policyData.termDuration} Months`
-              )}
-            </p>
-            <p>
-              <u>Effective Date</u>:{" "}
-              {isEditable ? (
+              </p>
+              <p>
+                Effective Date:{" "}
                 <input
                   type="text"
                   name="effectiveDate"
                   value={editedData.effectiveDate || ""}
                   onChange={handleFieldChange}
+                  readOnly={!isEditable}
+                  className={isEditable ? "editable" : "non-editable"}
                 />
-              ) : (
-                policyData.effectiveDate
-              )}
-            </p>
-            <p>
-              <u>Expiration Date</u>:{" "}
-              {isEditable ? (
+              </p>
+              <p>
+                Expiration Date:{" "}
                 <input
                   type="text"
                   name="expirationDate"
                   value={editedData.expirationDate || ""}
                   onChange={handleFieldChange}
+                  readOnly={!isEditable}
+                  className={isEditable ? "editable" : "non-editable"}
                 />
-              ) : (
-                policyData.expirationDate
-              )}
-            </p>
-            <p>
-              <u>Total Premium</u>:{" "}
-              {isEditable ? (
+              </p>
+              <p>
+                Total Premium:{" "}
                 <input
                   type="number"
                   name="premium"
                   value={editedData.premium || ""}
                   onChange={handleFieldChange}
+                  readOnly={!isEditable}
+                  className={isEditable ? "editable" : "non-editable"}
                 />
-              ) : (
-                `$${policyData.premium}`
-              )}
-            </p>
+              </p>
+            </div>
           </div>
-        </div>
+          {!isEditable && 
+          <button className="button" id="show-more" onClick={handleShowMore}>
+            Show {showMore? 'Less' : 'More'}
+          </button>}
+
+          {showMore && (
+            <div>
+              {policyData.vehicles.length > 0 && (
+                <div className="vehicle-details">
+                  <div className="tab">
+                    <p>Insured Vehicles</p>
+                  </div>
+                  <Vehicle vehicles={policyData.vehicles} />
+                </div>
+              )}
+
+              <div className="coverage-details">
+                <div className="tab">
+                  <p>Coverages</p>
+                </div>
+                <Coverage coverages={policyData.coverages} />
+              </div>
+            </div>
+          )}
         </div>
       </div>
     );

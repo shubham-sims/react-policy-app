@@ -27,11 +27,19 @@ function PolicySearch() {
           driverName: "",
           licenseNumber: "",
         }
-      },]
+      },],
+    coverages:[
+      {
+        coverageId: "",
+        coverageName:"",
+        coverageLimit: null
+      },
+    ]
   });
   const [isFetched, setIsFetched] = useState(false);
   const [editedData, setEditedData] = useState({});
   const [errors, setErrors] = useState("");
+  const [showMore, setShowMore] = useState(false);
   const navigate = useNavigate();
 
 
@@ -86,7 +94,8 @@ function PolicySearch() {
 
   return (
     <>
-      <div className="content-box">
+      {!showMore &&
+        <div className="content-box">
         <h2 className="heading">Search Policy</h2>
         <form onSubmit={handleSearch} className="login-form">
           <label htmlFor="policyNumber" className="input-label"></label>
@@ -99,7 +108,7 @@ function PolicySearch() {
           />
           {errors && <span className="error-message">{errors}</span>}
 
-          <button type="submit" className="button">
+          <button type="submit" className="button" >
             Search
           </button>
           
@@ -107,6 +116,7 @@ function PolicySearch() {
         {!isFetched ?<> <span><hr/></span>
           <button className="button" onClick={handleNewPolicy}>Create New Policy</button> </>: null}
       </div>
+      }
       <div>
         {/* Calling Policy Component and passing props to it */}
         <Policy
@@ -116,6 +126,8 @@ function PolicySearch() {
           setPolicyData={setPolicyData}
           editedData={editedData}
           setEditedData={setEditedData}
+          showMore={showMore}
+          setShowMore={setShowMore}
         />
       </div>
     </>

@@ -54,7 +54,7 @@ function NewPolicy() {
     <div className="policy-box">
       <h2 className="heading">Policy Details</h2>
 
-      <div className="policy-details">
+      <div className="policy-details new-policy-box">
         <div>
           <div className="input-element">
             <label htmlFor="policyNumber" className="input-label">
